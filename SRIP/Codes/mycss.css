@@ -1,0 +1,268 @@
+
+    textarea {
+  
+  }
+
+
+  td {
+    text-align: center;
+
+  }
+
+  thead tr {
+    background-color: #00aaff;  
+  }
+
+  tbody tr:hover {
+    background-color: inherit !important; 
+  }
+
+  button , select {
+    background-color: #fff;
+    padding: 3px;
+    border-radius: 5px;
+  }
+
+  #instructions {
+    padding: 3px 3px;
+    margin: 0 10px;
+    background-color: #fff;
+  }
+
+  table {
+    display: table;
+    border-collapse: separate;
+    border-spacing: 2px;
+
+}
+table, th, td {
+    border: 1px solid black;
+    width: 200px;
+}
+li {
+
+    text-align: -webkit-match-parent;
+}
+ol {
+    list-style-type: decimal;
+}
+
+ul, #container, #registersContainer, #lineNumbers, #instructions {
+        display:inline-block;
+        vertical-align: top;
+        border:1px solid gray;
+      }
+
+      #io {
+        border: 1px solid black;
+        min-height:100px;
+
+      }
+      #io div {
+        white-space: pre;
+      }
+
+      #instructions {
+        height:300px;
+        overflow-y: scroll;
+        overflow-x:hidden;
+        list-style: none;
+        margin:0px;
+        padding-right:10px;
+      }
+
+      #cursor {
+        height:10px;
+        border: 1px solid hsl(0,0%,10%);
+        width:0px;
+        display: inline-block;
+      }
+
+      #source {
+        position: relative;
+        left:0px;
+        min-width:970px;
+        min-height:425px;
+        outline: none;
+        margin-left: 5px;
+        margin-right:5px;
+            border:none;
+            resize:none;
+      }
+
+      #container {
+        min-width:640px;
+        height:300px;
+        overflow-y: scroll;
+    }
+
+    #lineNumbers, #source {
+            font-size:12px;
+      }
+
+    #registersContainer {
+      height:300px;
+      overflow-y:scroll;
+      width: -webkit-min-content;
+      width: -moz-min-content;
+    }
+    #registers {
+      margin-left: 20px;
+    }
+
+
+html, body
+{
+	background-color: #ffffff;
+	color: black;
+	font-family: courier, monospace;
+	font-size: 12px;
+	height: 100%;
+	letter-spacing: 1px;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+textarea, input, button
+{
+	outline: none;
+}
+
+#tooltip
+{
+	border: 1px solid;
+	box-shadow: 2px 2px 4px black;
+	display: none;
+	font-size: 10px;
+	max-width: 500px;
+	overflow: hidden;
+	padding: 2px;
+	position: absolute;
+	text-overflow: ellipsis;
+	z-index: 1000;
+}
+
+.panel
+{
+	background-color: #ffffff;
+	border: 1px dashed #313032;
+	border-radius: 3px;
+	margin: 5px;
+	padding: 10px;
+	height: 200px;
+}
+
+#content
+{
+	display: flex;
+	flex-flow: column;
+	height: 100%;
+	margin: 0 auto;
+	min-width: 750px;
+	width: 90%;
+}
+
+#header, #footer
+{
+	flex: 0 1 auto;
+	text-align: center;
+}
+
+#main
+{
+	display: flex;
+	flex: 1 1 auto;
+	overflow: hidden;
+}
+
+.content-left, .content-right
+{
+	display: flex;
+	flex-flow: column;
+	overflow: auto;
+}
+
+.content-left
+{
+	flex: 0 1 50%;
+	flex-flow: column;
+}
+
+.content-right
+{
+	flex: 0 1 50%;
+	flex-flow: column;
+}
+
+#buttons
+{
+	flex: 0 1 auto;
+	padding: 4px;
+}
+
+#buttons button
+{
+
+	border: 1px dashed #313032;
+	border-radius: 3px;
+	font: inherit;
+	font-size: 14px;
+	padding: 10px;
+}
+
+#buttons .active
+{
+	border: 1px dashed black;
+	border-radius: 3px;
+
+	font: inherit;
+	font-size: 14px;
+	padding: 10px;
+}
+
+#buttons button:disabled
+{
+
+	opacity: 0.33;
+}
+
+#buttons input
+{
+	
+	border: 1px dashed #313032;
+
+	font: inherit;
+	font-size: 14px;
+	padding: 10px;
+}
+
+#code
+{
+	flex: 0 1 75%;
+	overflow-y: hidden;
+	padding: 0;
+}
+
+#messages
+{
+	flex: 0 1 15%;
+	overflow-y: scroll;
+}
+
+#registers
+{
+	flex: 0 1 33%;
+	overflow-y: scroll;
+	white-space: nowrap;
+}
+
+#memory
+{
+	flex: 0 1 66%;
+	overflow-y: scroll;
+	white-space: nowrap;
+}
+    #lineNumbers {
+      text-align: right;
+    }

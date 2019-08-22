@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>ARM SIMULATOR</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="mycss.css">
+
+  <script src="myjs.js"></script>
+  <script src="processor.js"></script>
+  <script src="interpreter.js"></script>
+  <script src="system.js"></script>
+
+  <link rel="stylesheet" href="../Libraries/bootstrap.min.css">
+  <script src="../Libraries/codemirror.js"></script>
+  <link rel="stylesheet" href="../Libraries/codemirror.css">
+  <script src="../Libraries/gas.js"></script>
+  <script src= "../Libraries/jquery.js"></script>
+  <script src="../Libraries/bootstrap.min.js"></script>
+  <script src="../Libraries/keystone.min.js"></script>
+  <script src="../Libraries/unicorn-arm.min.js"></script>
+  
+
+
+</head>
+
+<body>
+<div style="padding: 10px 10px 10px 10px">
+<h4> ARM Simulator</h4>
+
+  <div class="btn-group">
+    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">File </button>
+    <ul class="dropdown-menu" role="menu">
+    <li> <a class="dropdown-item" href="#">New</a></li>
+    <li> <a class="dropdown-item" href="#">Open</a></li>
+    <li> <a class="dropdown-item" href="#">Close</a></li>
+    <li> <a class="dropdown-item" href="#">Close All</a></li>
+    <li> <a class="dropdown-item" href="#">Save</a></li>
+    <li> <a class="dropdown-item" href="#">Save As</a></li>
+    <li> <a class="dropdown-item" href="#">Exit</a></li>
+      </ul>
+      </div>
+
+
+      <div class="btn-group">
+    <button type="button" class="btn btn-primary  dropdown-toggle" data-toggle="dropdown">Edit </button>
+    <ul class="dropdown-menu" role="menu">
+    <li><a class="dropdown-item" href="#">Undo</a></li>
+    <li><a class="dropdown-item" href="#">Redo</a></li>
+    <li><a class="dropdown-item" href="#">Cut</a></li>
+    <li><a class="dropdown-item" href="#">Copy</a></li>
+    <li><a class="dropdown-item" href="#">Paste</a></li>
+    <li><a class="dropdown-item" href="#">Select all</a></li>
+      </ul>
+      </div>
+      
+      
+    <div class="btn-group">
+      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+      Run </button>
+      <ul class="dropdown-menu" role="menu">
+
+    <li> <a id="assem" onclick="assemble();">Assemble</a></li>
+    <li><a id="RunButton">Run</a></li>
+     <li>Run Delay<input id ="RunDelay" type="number" value="250" min="50" style="width: 50px"></li>
+    <li> <a id="StepButton">Step</a></li>
+    <li> <a id="ResetButton">Reset</a></li>
+    <li> <a href="#">Clear Breakpoints</a></li>
+    <li> <a href="#">Toggle Breakpoints</a></li>
+      </ul>
+    </div>
+
+    <div class="btn-group" >
+    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Help </button>
+    <ul class="dropdown-menu" role="menu">
+        <li><a  id="Helpid" >Help</a></li>
+        <li><a href="#" onclick="myabout()">About</a></li>
+      </ul>
+    </div>
+
+
+<hr>
+  <ul class="nav nav-pills">
+    <li class="active"><a data-toggle="pill" href="#Editor" style="border-left: 1px solid black;">Editor</a></li>
+    <li style="border-left: 1px solid black;"><a data-toggle="pill" href="#Execute" id="execc">Execute</a></li>
+    <li style="border-left: 1px solid black;"><a data-toggle="pill" href="#Codes">Codes</a></li>
+    <li style="border-left: 1px solid black;"><a data-toggle="pill" href="#Helpin" id="lol">Help</a></li>
+  </ul>
+  
+  <div class="tab-content" >
+    <div id="Editor" class="tab-pane fade in active" style="height: 450px; overflow: auto; border: 1px solid black;">
+
+     <div style="height: 100%; width: 100%">
+      <div id = "lineNumbers"></div>
+      <textarea id = "source"  placeholder="# Enter your code here and click on 'Assemble' under 'Run' button" spellcheck="false"></textarea>
+  </div>
+      
+    </div>
+    <div id="Execute" class="tab-pane fade" style="height: 450px; overflow: auto;border: 1px solid black; padding: 15px 15px 15px 15px;">
+       
+      <div class="content-right">
+      <div class="panel" id="registers">
+        <table>
+        <thead>
+        <tr>
+        <th>Register</th>
+      <th>Value</th>
+    </tr>
+    </thead>
+      <tbody>
+        <tr>
+        <td>R0</td>
+      <td>0</td>
+    </tr>
+      <tr>
+        <td>R1</td>
+      <td>0</td>
+    </tr>
+      <tr>
+        <td>R2</td>
+      <td>0</td>
+    </tr>
+      <tr>
+        <td>R3</td>
+      <td>0</td>
+    </tr>
+      <tr>
+        <td>R4</td>
+      <td>0</td>
+    </tr>
+      <tr>
+        <td>R5</td>
+      <td>0</td>
+    </tr>
+      <tr>
+        <td>R6</td>
+      <td>0</td>
+    </tr>
+      <tr>
+        <td>R7</td>
+      <td>0</td>
+    </tr>
+      <tr>
+        <td>R8</td>
+      <td>0</td>
+    </tr>
+      <tr>
+        <td>R9</td>
+      <td>0</td>
+    </tr>
+      <tr>
+        <td>R10</td>
+      <td>0</td>
+    </tr>
+      <tr>
+        <td>R11</td>
+      <td>0</td>
+    </tr>
+      <tr>
+        <td>R12</td>
+      <td>0</td>
+    </tr>
+      <tr>
+        <td>SP</td>
+      <td>10000</td>
+    </tr>
+      <tr>
+        <td>LR</td>
+      <td>0</td>
+    </tr>
+      <tr>
+        <td>PC</td>
+      <td>10000</td>
+    </tr>
+      <tr>
+        <td>CPSR</td>
+      <td>13</td>
+    </tr>
+    </tbody>
+    </table>
+      <table>
+      </table>
+    </div>
+  </div>
+
+      <div class="panel" id="memory">
+        0x00010000: 
+        <u>
+          <span style="color:#90a959">01</span>
+        </u>
+           <u>
+            <span style="color:#313032">00</span>
+        </u> 
+          <u>
+            <span style="color:#6a9fb5">80</span>
+        </u> 
+          <u>
+            <span style="color:#aa759f">E2</span>
+        </u> 
+          <span style="color:#e0e0e0">90</span>
+           <span style="color:#313032">00</span> 
+           <span style="color:#90a959">01</span> 
+          <span style="color:#6a9fb5">E0</span>
+           <span style="color:#e0e0e0">FC</span> 
+           <span style="color:#ac4142">FF</span> 
+          <span style="color:#ac4142">FF</span>
+           <span style="color:#e0e0e0">EA</span> 
+           <span style="color:#313032">00</span> 
+          <span style="color:#313032">00</span>
+           <span style="color:#313032">00</span> 
+           <span style="color:#313032">00</span>
+           <span style="color:#313032">.</span>
+          <span style="color:#313032">.</span>
+          <span style="color:#313032">.</span>
+          <span style="color:#313032">.</span>
+          <span style="color:#313032">.</span>
+          <span style="color:#313032">.</span>
+          <span style="color:#313032">.</span>
+          <span style="color:#313032">.</span>
+          <span style="color:#313032">.</span>
+          <span style="color:#313032">.</span>
+          <span style="color:#313032">.</span>
+          <span style="color:#313032">.</span>
+          <span style="color:#313032">.</span>
+          <span style="color:#313032">.</span>
+          <span style="color:#313032">.</span>
+          <span style="color:#313032">.</span>
+          <br>
+          0x00010010:
+           <span style="color:#313032">00</span>
+            <span style="color:#313032">00</span>
+           <span style="color:#313032">00</span>
+            <span style="color:#313032">00</span> 
+            <span style="color:#313032">00</span> 
+           <span style="color:#313032">00</span>
+            <span style="color:#313032">00</span> 
+          <span style="color:#313032">00</span> 
+          <span style="color:#313032">00</span> 
+          <span style="color:#313032">00</span>
+           <span style="color:#313032">00</span> 
+           <span style="color:#313032">00</span>
+           <span style="color:#313032">00</span>
+            <span style="color:#313032">00</span> 
+            <span style="color:#313032">00</span>
+           <span style="color:#313032">00</span>
+            <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+          <span style="color:#313032">.</span>
+          <span style="color:#313032">.</span>
+          <span style="color:#313032">.</span>
+          <span style="color:#313032">.</span>
+          <span style="color:#313032">.</span>
+          <span style="color:#313032">.</span>
+          <span style="color:#313032">.</span>
+          <span style="color:#313032">.</span>
+          <span style="color:#313032">.</span>
+          <span style="color:#313032">.</span>
+          <span style="color:#313032">.</span>
+          <span style="color:#313032">.</span>
+          <br>
+          0x00010020:
+           <span style="color:#313032">00</span>
+           <span style="color:#313032">00</span>
+           <span style="color:#313032">00</span>
+            <span style="color:#313032">00</span> 
+            <span style="color:#313032">00</span>
+           <span style="color:#313032">00</span> 
+           <span style="color:#313032">00</span> 
+           <span style="color:#313032">00</span> 
+           <span style="color:#313032">00</span> 
+           <span style="color:#313032">00</span>
+            <span style="color:#313032">00</span> 
+           <span style="color:#313032">00</span> 
+           <span style="color:#313032">00</span> 
+           <span style="color:#313032">00</span> 
+           <span style="color:#313032">00</span> 
+           <span style="color:#313032">00</span>
+            <span style="color:#313032">.</span>
+            <span style="color:#313032">.</span>
+            <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <br>
+           0x00010030: 
+           <span style="color:#313032">00</span> 
+           <span style="color:#313032">00</span> 
+           <span style="color:#313032">00</span> 
+           <span style="color:#313032">00</span> 
+           <span style="color:#313032">00</span> 
+           <span style="color:#313032">00</span> 
+           <span style="color:#313032">00</span> 
+           <span style="color:#313032">00</span> 
+           <span style="color:#313032">00</span>
+            <span style="color:#313032">00</span> 
+            <span style="color:#313032">00</span>
+             <span style="color:#313032">00</span> 
+            <span style="color:#313032">00</span> 
+            <span style="color:#313032">00</span> 
+           <span style="color:#313032">00</span> 
+           <span style="color:#313032">00</span> 
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <br>
+           0x00010040: 
+           <span style="color:#313032">00</span>
+            <span style="color:#313032">00</span>
+            <span style="color:#313032">00</span> 
+            <span style="color:#313032">00</span>
+            <span style="color:#313032">00</span>
+            <span style="color:#313032">00</span> 
+            <span style="color:#313032">00</span> 
+           <span style="color:#313032">00</span> 
+           <span style="color:#313032">00</span>
+            <span style="color:#313032">00</span>
+            <span style="color:#313032">00</span> 
+            <span style="color:#313032">00</span>
+            <span style="color:#313032">00</span> 
+            <span style="color:#313032">00</span>
+            <span style="color:#313032">00</span>
+            <span style="color:#313032">00</span> 
+            <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <br>
+           0x00010050: 
+           <span style="color:#313032">00</span>
+            <span style="color:#313032">00</span>
+             <span style="color:#313032">00</span> 
+            <span style="color:#313032">00</span>
+             <span style="color:#313032">00</span> 
+             <span style="color:#313032">00</span> 
+           <span style="color:#313032">00</span> 
+           <span style="color:#313032">00</span> 
+           <span style="color:#313032">00</span> 
+           <span style="color:#313032">00</span> 
+           <span style="color:#313032">00</span> 
+           <span style="color:#313032">00</span> 
+           <span style="color:#313032">00</span>
+            <span style="color:#313032">00</span> 
+            <span style="color:#313032">00</span> 
+            <span style="color:#313032">00</span>
+            <span style="color:#313032">.</span>
+            <span style="color:#313032">.</span>
+            <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <br>
+           0x00010060: 
+           <span style="color:#313032">00</span>
+            <span style="color:#313032">00</span>
+            <span style="color:#313032">00</span>
+            <span style="color:#313032">00</span>
+             <span style="color:#313032">00</span> 
+             <span style="color:#313032">00</span>
+            <span style="color:#313032">00</span>
+             <span style="color:#313032">00</span> 
+            <span style="color:#313032">00</span>
+             <span style="color:#313032">00</span> 
+             <span style="color:#313032">00</span>
+            <span style="color:#313032">00</span>
+             <span style="color:#313032">00</span>
+            <span style="color:#313032">00</span>
+             <span style="color:#313032">00</span> 
+             <span style="color:#313032">00</span>
+            <span style="color:#313032">.</span>
+            <span style="color:#313032">.</span>
+            <span style="color:#313032">.</span>
+            <span style="color:#313032">.</span>
+            <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <br>
+           0x00010070: 
+           <span style="color:#313032">00</span>
+            <span style="color:#313032">00</span> 
+            <span style="color:#313032">00</span> 
+           <span style="color:#313032">00</span> 
+           <span style="color:#313032">00</span> 
+           <span style="color:#313032">00</span>
+            <span style="color:#313032">00</span> 
+            <span style="color:#313032">00</span> 
+            <span style="color:#313032">00</span> 
+            <span style="color:#313032">00</span>
+             <span style="color:#313032">00</span>
+            <span style="color:#313032">00</span> 
+            <span style="color:#313032">00</span> 
+            <span style="color:#313032">00</span>
+             <span style="color:#313032">00</span> 
+             <span style="color:#313032">00</span> 
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <span style="color:#313032">.</span>
+           <br>0x00010080:
+            <span style="color:#313032">00</span>
+            <span style="color:#313032">00</span>
+            <span style="color:#313032">00</span> 
+            <span style="color:#313032">00</span> 
+            <span style="color:#313032">00</span>
+             <span style="color:#313032">00</span>
+            <span style="color:#313032">00</span>
+             <span style="color:#313032">00</span>
+            <span style="color:#313032">00</span>
+             <span style="color:#313032">00</span> 
+             <span style="color:#313032">00</span> 
+            <span style="color:#313032">00</span> 
+            <span style="color:#313032">00</span> 
+           <span style="color:#313032">00</span> 
+           <span style="color:#313032">00</span> 
+           <span style="color:#313032">00</span>
+            <span style="color:#313032">.</span>
+            <span style="color:#313032">.</span>
+            <span style="color:#313032">.</span>
+            <span style="color:#313032">.</span>
+            <span style="color:#313032">.</span>
+            <span style="color:#313032">.</span>
+            <span style="color:#313032">.</span>
+            <span style="color:#313032">.</span>
+            <span style="color:#313032">.</span>
+            <span style="color:#313032">.</span>
+            <span style="color:#313032">.</span>
+            <span style="color:#313032">.</span>
+            <span style="color:#313032">.</span>
+            <span style="color:#313032">.</span>
+            <span style="color:#313032">.</span>
+            <span style="color:#313032">.</span>
+            <br>
+            0x00010090: 
+            <span style="color:#313032">00</span>
+             <span style="color:#313032">00</span> 
+             <span style="color:#313032">00</span>
+             <span style="color:#313032">00</span> 
+             <span style="color:#313032">00</span>
+             <span style="color:#313032">00</span> 
+             <span style="color:#313032">00</span>
+             <span style="color:#313032">00</span> 
+             <span style="color:#313032">00</span>
+             <span style="color:#313032">00</span> 
+             <span style="color:#313032">00</span>
+             <span style="color:#313032">00</span>
+              <span style="color:#313032">00</span>
+             <span style="color:#313032">00</span> 
+             <span style="color:#313032">00</span>
+             <span style="color:#313032">00</span> 
+             <span style="color:#313032">.</span>
+             <span style="color:#313032">.</span>
+             <span style="color:#313032">.</span>
+             <span style="color:#313032">.</span>
+             <span style="color:#313032">.</span>
+             <span style="color:#313032">.</span>
+             <span style="color:#313032">.</span>
+             <span style="color:#313032">.</span>
+             <span style="color:#313032">.</span>
+             <span style="color:#313032">.</span>
+             <span style="color:#313032">.</span>
+             <span style="color:#313032">.</span>
+             <span style="color:#313032">.</span>
+             <span style="color:#313032">.</span>
+             <span style="color:#313032">.</span>
+             <span style="color:#313032">.</span>
+             <br>
+             0x000100A0: 
+             <span style="color:#313032">00</span> 
+             <span style="color:#313032">00</span> 
+             <span style="color:#313032">00</span> 
+             <span style="color:#313032">00</span> 
+             <span style="color:#313032">00</span> 
+             <span style="color:#313032">00</span> 
+             <span style="color:#313032">00</span> 
+             <span style="color:#313032">00</span> 
+             <span style="color:#313032">00</span> 
+             <span style="color:#313032">00</span> 
+             <span style="color:#313032">00</span> 
+             <span style="color:#313032">00</span> 
+             <span style="color:#313032">00</span> 
+             <span style="color:#313032">00</span> 
+             <span style="color:#313032">00</span> 
+             <span style="color:#313032">00</span> 
+             <span style="color:#313032">.</span>
+             <span style="color:#313032">.</span>
+             <span style="color:#313032">.</span>
+             <span style="color:#313032">.</span>
+             <span style="color:#313032">.</span>
+             <span style="color:#313032">.</span>
+             <span style="color:#313032">.</span>
+             <span style="color:#313032">.</span>
+             <span style="color:#313032">.</span>
+             <span style="color:#313032">.</span>
+             <span style="color:#313032">.</span>
+             <span style="color:#313032">.</span>
+             <span style="color:#313032">.</span>
+             <span style="color:#313032">.</span>
+             <span style="color:#313032">.</span>
+             <span style="color:#313032">.</span><br>0x000100B0: <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+             <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+             <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+             <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+             <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+             <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">.</span>
+             <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+             <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+             <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+             <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+             <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+             <br>
+             0x000100C0:
+              <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+              <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+              <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+              <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+              <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+              <span style="color:#313032">00</span> <span style="color:#313032">.</span><span style="color:#313032">.</span>
+              <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+              <br>
+              0x000100D0:
+               <span style="color:#313032">00</span>
+               <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+               <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+               <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+               <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+               <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+               <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+               <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+               <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+               <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+               <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+               <span style="color:#313032">.</span><br>0x000100E0: <span style="color:#313032">00</span> 
+               <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                <span style="color:#313032">.</span><br>0x000100F0: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                <span style="color:#313032">.</span><br>0x00010100: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+                <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+                <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+                <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+                <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+                <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                <span style="color:#313032">.</span><br>0x00010110: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+                <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+                <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+                <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+                <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+                <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                <span style="color:#313032">.</span><br>0x00010120: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+                <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+                <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+                <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+                <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                <span style="color:#313032">.</span><br>0x00010130: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+                <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+                <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+                <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+                <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+                <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                <span style="color:#313032">.</span><br>0x00010140: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><br>0x00010150: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+                <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+                <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+                <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                <br>0x00010160: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><br>0x00010170: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                 <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                 <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                 <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                 <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                 <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                 <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                 <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                 <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><br>0x00010180: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+                 <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+                 <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+                 <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+                 <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                 <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                 <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                 <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                 <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span
+                  ><br>0x00010190: <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+                  <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+                  <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                   <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                    <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                     <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">.</span>
+                     <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                     <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                     <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                     <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                     <br>0x000101A0: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                      <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                      <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                      <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                      <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                      <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                      <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                      <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                      <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                      <span style="color:#313032">.</span><br>0x000101B0: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                       <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                       <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                       <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                       <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                       <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                       <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                       <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                       <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                       <span style="color:#313032">.</span><br>0x000101C0: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                       <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                       <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                       <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                       <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                       <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><br>0x000101D0: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                       <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                       <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                       <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                       <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                       <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><br>0x000101E0: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><br>0x000101F0: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><br>0x00010200: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><br>0x00010210: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><br>0x00010220: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><br>0x00010230: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><br>0x00010240: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><br>0x00010250: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><br>0x00010260: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+                        <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><br>0x00010270: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> 
+                        <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><br>0x00010280: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><br>0x00010290: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><br>0x000102A0: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><br>0x000102B0: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><br>0x000102C0: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                        <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><br>0x000102D0: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                         <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><br>0x000102E0: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span>
+                          <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><br>0x000102F0: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                          <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><br>0x00010300: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+                          <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><br>0x00010310: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><br>0x00010320: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><br>0x00010330: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><br>0x00010340: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><br>0x00010350: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><br>0x00010360: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><br>0x00010370: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><br>0x00010380: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><br>0x00010390: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><br>0x000103A0: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><br>0x000103B0: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><br>0x000103C0: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><br>0x000103D0: <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">00</span> <span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span><span style="color:#313032">.</span>
+        <span style="color:#313032">.</span>
+      <br>
+      0x000103E0:
+       <span style="color:#313032">00</span>
+       <span style="color:#313032">00</span>
+       <span style="color:#313032">00</span> 
+        <span style="color:#313032">00</span>
+       <span style="color:#313032">00</span>
+       <span style="color:#313032">00</span> 
+       <span style="color:#313032">00</span>
+       <span style="color:#313032">00</span>
+       <span style="color:#313032">00</span> 
+       <span style="color:#313032">00</span>
+       <span style="color:#313032">00</span>
+       <span style="color:#313032">00</span> 
+       <span style="color:#313032">00</span>
+       <span style="color:#313032">00</span> 
+       <span style="color:#313032">00</span> 
+      <span style="color:#313032">00</span>
+       <span style="color:#313032">.</span>
+       <span style="color:#313032">.</span>
+      <span style="color:#313032">.</span>
+      <span style="color:#313032">.</span><span style="color:#313032">.</span>
+      <span style="color:#313032">.</span>
+      <span style="color:#313032">.</span><span style="color:#313032">.</span>
+      <span style="color:#313032">.</span>
+      <span style="color:#313032">.</span><span style="color:#313032">.</span>
+      <span style="color:#313032">.</span>
+      <span style="color:#313032">.</span><span style="color:#313032">.</span>
+      <span style="color:#313032">.</span>
+      <span style="color:#313032">.</span>
+      <br>
+      0x000103F0: 
+      <span style="color:#313032">00</span> 
+      <span style="color:#313032">00</span>
+       <span style="color:#313032">00</span>
+       <span style="color:#313032">00</span>
+       <span style="color:#313032">00</span> 
+       <span style="color:#313032">00</span>
+       <span style="color:#313032">00</span>
+       <span style="color:#313032">00</span>
+       <span style="color:#313032">00</span>
+       <span style="color:#313032">00</span>
+       <span style="color:#313032">00</span> 
+       <span style="color:#313032">00</span>
+       <span style="color:#313032">00</span>
+       <span style="color:#313032">00</span> 
+       <span style="color:#313032">00</span>
+        <span style="color:#313032">00</span>
+       <span style="color:#313032">.</span>
+       <span style="color:#313032">.</span>
+      <span style="color:#313032">.</span>
+      <span style="color:#313032">.</span>
+      <span style="color:#313032">.</span>
+      <span style="color:#313032">.</span>
+      <span style="color:#313032">.</span>
+      <span style="color:#313032">.</span>
+      <span style="color:#313032">.</span>
+      <span style="color:#313032">.</span>
+      <span style="color:#313032">.</span>
+      <span style="color:#313032">.</span>
+      <span style="color:#313032">.</span>
+      <span style="color:#313032">.</span>
+      <span style="color:#313032">.</span>
+        <span style="color:#313032">.</span>
+        <br>
+      </div>
+ 
+  
+    </div>
+    <div id="Codes" class="tab-pane fade" style="height: 440px; border: 1px solid black">
+
+      <ul class="nav nav-pills">
+        <li style="border-left: 1px solid black;"><a class="btn btn-info btn-xs active" data-toggle="pill" href="#Program1">Program 1</a></li>
+    <li style="border-left: 1px solid black;"><a class="btn btn-info btn-xs" data-toggle="pill" href="#Program2">Program 2</a></li>
+    <li style="border-left: 1px solid black;"><a class="btn btn-info btn-xs" data-toggle="pill" href="#Program3">Program 3</a></li>
+
+    <li style="border-left: 1px solid black;"><a class="btn btn-info btn-xs" data-toggle="pill" href="#Program4">Program 4</a></li>
+
+    <li style="border-left: 1px solid black;"><a class="btn btn-info btn-xs" data-toggle="pill" href="#Program5">Program 5</a></li>
+    </ul>
+
+      <div class="tab-content" style=" width: 100%" >
+         <div id="Program1" class="tab-pane fade" style=" overflow: auto;  height: 400px;">
+
+      <!--Program 1 Code Here -->
+    </div>
+
+     <div id="Program2" class="tab-pane fade" style="overflow: auto;height: 400px; ">
+       <!--Program 2 Code Here -->
+
+      </div>  
+
+     <div id="Program3" class="tab-pane fade" style="overflow: auto; height: 400px;">
+       <!--Program 3 Code Here -->
+     </div>
+
+     <div id="Program4" class="tab-pane fade" style="overflow: auto; height: 400px;">
+       <!--Program 4 Code Here -->
+     </div>
+
+     <div id="Program5" class="tab-pane fade" style="overflow: auto; height: 400px;">
+       <!--Program 5 Code Here -->
+     </div>
+</div>
+  </div>
+
+    <div id="Helpin" class="tab-pane fade" style="height: 450px; overflow: auto;border: 1px solid black; padding: 15px 15px 15px 15px;">
+      
+<br>
+<b>User's Guide</b>
+ <br>
+<br>
+<b>1. Introduction</b><br>
+This simulator is designed to run assembly codes, programed in Arm assmebly language.<br>
+ <b>2. Layout</b><br>
+At the top of the simulator there is a MenuBar. The Menubar provides following functionalities ..
+<br>
+<br>
+<ul>
+
+<li>File</li>
+  <ul>
+    <li>
+Options for writing a new code; opening a file; closing or saving the current code etc</li>
+<li>
+Exiting the Simulator</li>
+</ul>
+<li>Edit</li>
+<ul>
+  <li>
+Editor options like undo, redo, select all etc.</li>
+</ul>
+<li>Run</li>
+<ul>
+  <li>
+Assemble the code</li>
+<li>
+Run the whole program
+</li>
+<li>
+  Run the current instruction of the program
+</li>
+</ul>
+</ul>
+<br>
+The main panel consistes of 4 tabs.<br>
+<br>
+<ul>
+  <li>
+    <br>
+<b>
+Editor :</b> Here the user will write their programs. The editor can have multiple tabs of code section. In each tab user can write their programs.
+ </li>
+ <li>
+  <b>
+Execute :</b> Assembling and running of the user code will be done here. It consists of various sections like the register table, text section, memory table etc.
+ </li><li>
+  <b>
+Sample Codes :</b> Various sample Arm Programs are provided here for the user help.
+ </li>
+ <li>
+  <b>
+Help :</b> User guide to understand the simulator. 
+</li>
+</ul>
+<br>
+The bottom I/O panel is to generate the assembler messages. Assembly errors, runtime errors, input/output messages etc will be generated here.
+<br>
+
+<b> 3. Writing and Running a sample program
+</b>
+<ul>
+  <li>
+To write a program, the first thing we have to do, is to open a new editor where we can write our program. To do that ..
+<br>
+<ul>
+  <li>
+Click on the File button from the menu. A list will appear.</li>
+<li>
+Click on the New button from the list. A new editor will appear in the editor tab. Here we will write our program.
+</li>
+</ul>
+</li>
+
+<li>
+Next, we will write our code in the editor. We can either start from scratch and write the program or we can copy the sample code, present in the sample codes tab, and modify it to our needs.
+</li>
+<li>
+After writing our program, we will assemble it. To do that ..
+<br>
+<ul>
+  <li>
+Click on the Run buttion from the menu. A list will appear.
+</li>
+<li>Click on the Assemble button from the list.
+</li>
+</ul>
+</li>
+<br>
+<p>
+This will assemble our arm program and the control will be transfered from the editor window to the execute window. If there are error(s) in our program, the subsequent messages will be displayed in the bottom I/O panel.
+</p>
+<li>
+After the program has been successfuly assebled, we can run it. We can either choose to run the whole program in one shot, or we can run one instruction at a time. To do the, the execute panel has two buttons, Run and Step
+</li>
+</ul>
+  <br>
+<b>
+
+ 4. Supported Directives/Instructions
+
+</b>
+The registers are named from r0 to r15. r15 is the program counter (PC). r14 is the link register (lr).
+<br>
+In this version following directives are supported :<br>
+<ul>
+  <li>
+    <b>
+.word :</b> To define a single variable or an array. If inital value(s) is not provided, no memory space will be reserved and the variable name will be an alias to the previously defined variable.
+</li>
+<li>
+    <b>
+.space :</b> To allocate a memory chunk of given size to a variable. A memory chunk might be composed of several words.
+</li>
+<li>
+    <b>
+.global :</b> To define a function/label as gloal
+</li>
+<li>
+    <b>
+.arm :</b> To specify that the following code is an arm program. It has no affect on the code functionality.
+</li>
+<li>
+    <b>
+.text : </b> To specify the begining of the text section.
+</li>
+<li>
+    <b>
+.data :</b> To specify the beginning of the data section.
+</li>
+</ul><br>
+
+Since this is a simulator form ARM, All the instructions and their format is in ARM assembly language. The functionality of every instruction is in accordance with the arm architecture. In this version, following instructions are supported : 
+<br>
+
+
+<table>
+  <tr>
+    <td>Load/Store :</td>
+    <th>ldr, str</th>
+
+  </tr>
+  <tr>
+    <td>Branch :</td>
+    <th>b, bl</th>
+
+  </tr>
+    <tr>
+    <td>Basic Instructions :</td>
+    <td>
+Arithmetic, Logical Comparision and Data Movement instructions</td>
+
+  </tr>
+    <tr>
+    <td>Arithmetic :</td>
+    <th>add, adc, sub, sbc, rsb, rsc mul, mla</th>
+
+  </tr>
+    <tr>
+    <td>
+Logical :
+</td>
+    <th>and, eor, orr, bic</th>
+
+  </tr>
+      <tr>
+    <td>Comparison :</td>
+    <th>cmp, cmn, tst, teq</th>
+
+  </tr>
+      <tr>
+    <td>
+Data movement :</td>
+    <th>mov, mvn, swp, clz</th>
+
+  </tr>
+  
+  
+</table>
+
+
+<br>
+
+ The following Condition flags are supported <br>
+
+
+
+<table>
+  <tr>
+    <th>Flags</th>
+    <th>Logical Instructions</th>
+    <th>Arithmetic Instructions</th>
+  </tr>
+  <tr>
+    <td>Negative (N)</td>
+    <td>No meaning</td>
+    <td>Set if the result of the signed operation is negative</td>
+  </tr>
+  <tr>
+    <td>Zero (Z)</td>
+    <td>Set if the result is all zeros</td>
+    <td>Set if the result of the operation is zero</td>
+  </tr>
+  <tr>
+    <td>Carry (C)</td>
+    <td>Set if after 'shift' operation, 1 was left in the carry flag.</td>
+    <td>
+Set if the result was greater than 32 bits</td>
+  </tr>
+  <tr>
+    <td>Overflow (O)</td>
+    <td>No meaning</td>
+    <td>Set if the result of the signed operation led to overflow.</td>
+  </tr>
+  
+</table>
+
+
+
+<br>
+
+ The instructions may have a condition field set. The following conditions are supported. 
+ <br>
+
+<table>
+ 
+  <tr>
+    <td>EQ</td>
+    <td>NE</td>
+    <td>HS / CS</td>
+    <td>LO / CC</td>
+  </tr>
+  
+    <tr>
+    <td>MI</td>
+    <td>PL</td>
+    <td>VS</td>
+    <td>VC</td>
+  </tr>
+  
+    <tr>
+    <td>HI</td>
+    <td>LS</td>
+    <td>GE</td>
+    <td>LT</td>
+  </tr>
+  
+    <tr>
+    <td>GT</td>
+    <td>LE</td>
+    <td>AL</td>
+    <td>NV</td>
+  </tr>
+  
+  
+</table>
+
+
+<br>
+ For the basic instructions, the flag variable will be modified only when the instruction is followed by 'S' condition.  <br>
+--> To add comments use, @ or ;, followed by your comment. <br>
+--> In text section, Constants must be preceded by a #. For example, to assign 10 to r1, use: mov r1, #10 (or mov r1, #0xa)
+<br>
+
+      
+    </div>
+
+   <ul class="nav nav-pills">
+        <li style="border-left: 1px solid black;"><a class="btn btn-info btn-xs" data-toggle="pill" href="#runip">Run I/P & O/P</a></li>
+    <li style="border-left: 1px solid black;"><a class="btn btn-info btn-xs" data-toggle="pill" href="#parsee">Parse Message</a></li>    
+    </ul>
+    <div class="tab-content" style=" width: 100%" >
+         <div id="runip" class="tab-pane fade" style=" overflow: auto; ">
+          <div class="panel" id="messages">
+      </div>
+
+        </div>
+        <div id="parsee" class="tab-pane fade in active" style=" overflow: auto;">
+          <div style=" overflow: auto;border: 1px solid black;">
+          <div id="status" style=" height: 100px;">
+            </div>
+          </div>
+        </div>
+    </div>
+
+</div>
+</div>
+</div>
+</body>
+ <script src="main.js"></script>
+ <script src="javascrpt.js"></script>
+</html>
