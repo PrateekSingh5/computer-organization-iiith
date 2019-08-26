@@ -12,6 +12,7 @@
   <script src="interpreter.js"></script>
   <script src="system.js"></script>
 
+  <script src="samplePrograms.js"></script>
   <link rel="stylesheet" href="../Libraries/bootstrap.min.css">
   <script src="../Libraries/codemirror.js"></script>
   <link rel="stylesheet" href="../Libraries/codemirror.css">
@@ -89,7 +90,7 @@
   </ul>
   
   <div class="tab-content" >
-    <div id="Editor" class="tab-pane fade in active" style="height: 450px; overflow: auto; border: 1px solid black;">
+    <div id="Editor" class="tab-pane fade in active" style="height: 350px; overflow: auto; border: 1px solid black;">
 
      <div style="height: 100%; width: 100%">
       <div id = "lineNumbers"></div>
@@ -879,40 +880,78 @@
     <div id="Codes" class="tab-pane fade" style="height: 440px; border: 1px solid black">
 
       <ul class="nav nav-pills">
-        <li style="border-left: 1px solid black;"><a class="btn btn-info btn-xs active" data-toggle="pill" href="#Program1">Program 1</a></li>
-    <li style="border-left: 1px solid black;"><a class="btn btn-info btn-xs" data-toggle="pill" href="#Program2">Program 2</a></li>
-    <li style="border-left: 1px solid black;"><a class="btn btn-info btn-xs" data-toggle="pill" href="#Program3">Program 3</a></li>
+        <li style="border-left: 1px solid black;"><a class="btn btn-info btn-xs active" data-toggle="pill" href="#Program1t">Program 1</a></li>
+    <li style="border-left: 1px solid black;"><a class="btn btn-info btn-xs" data-toggle="pill" href="#Program2t">Program 2</a></li>
+    <li style="border-left: 1px solid black;"><a class="btn btn-info btn-xs" data-toggle="pill" href="#Program3t">Program 3</a></li>
 
-    <li style="border-left: 1px solid black;"><a class="btn btn-info btn-xs" data-toggle="pill" href="#Program4">Program 4</a></li>
+    <!-- <li style="border-left: 1px solid black;"><a class="btn btn-info btn-xs" data-toggle="pill" href="#Program4t">Program 4</a></li>
 
-    <li style="border-left: 1px solid black;"><a class="btn btn-info btn-xs" data-toggle="pill" href="#Program5">Program 5</a></li>
+    <li style="border-left: 1px solid black;"><a class="btn btn-info btn-xs" data-toggle="pill" href="#Program5t">Program 5</a></li> -->
     </ul>
 
       <div class="tab-content" style=" width: 100%" >
-         <div id="Program1" class="tab-pane fade" style=" overflow: auto;  height: 400px;">
+         <div id="Program1t" class="tab-pane fade" style=" overflow: auto;  height: 400px;">
 
       <!--Program 1 Code Here -->
+      <div id="Program1">
+           <pre>
+          #Add 2 numbers 
+          mov r0, #5  
+          mov r1, #3  
+          add r0, r0, r1 
+  </pre>
+      </div>
+<button onclick="copyFunction('Program1')">Copy code</button>
+
     </div>
 
-     <div id="Program2" class="tab-pane fade" style="overflow: auto;height: 400px; ">
+     <div id="Program2t" class="tab-pane fade" style="overflow: auto;height: 400px; ">
        <!--Program 2 Code Here -->
+       <div id="Program2">
+        <pre>
+       #Multiply 2 numbers
+        mov r0, #5
+        mov r1, #3
+        mul r2, r0, r1
+    </pre>
 
+</div>
+<button onclick="copyFunction('Program2')">Copy code</button>
       </div>  
 
-     <div id="Program3" class="tab-pane fade" style="overflow: auto; height: 400px;">
+     <div id="Program3t" class="tab-pane fade" style="overflow: auto; height: 400px;">
        <!--Program 3 Code Here -->
+<div id="Program3">
+<pre>
+   #Factorial of number 5
+    mov r3, #1
+    mov r0, #5    
+
+    factorial:
+      cmp r0, #0
+      beq end
+      mul r3, r3, r0
+      sub r0, r0, #1
+      b factorial
+    end:
+        mov r0, r3
+    </pre>
+  </div>
+
+    <button onclick="copyFunction('Program3')">Copy code</button>
+   
+     </div>
+<!-- 
+     <div id="Program4t" class="tab-pane fade" style="overflow: auto; height: 400px;">
+       Program 4 Code Here 
      </div>
 
-     <div id="Program4" class="tab-pane fade" style="overflow: auto; height: 400px;">
-       <!--Program 4 Code Here -->
-     </div>
-
-     <div id="Program5" class="tab-pane fade" style="overflow: auto; height: 400px;">
-       <!--Program 5 Code Here -->
+     <div id="Program5t" class="tab-pane fade" style="overflow: auto; height: 400px;">
+       Program 5 Code Here 
      </div>
 </div>
   </div>
-
+ -->
     <div id="Helpin" class="tab-pane fade" style="height: 450px; overflow: auto;border: 1px solid black; padding: 15px 15px 15px 15px;">
       
 <br>
