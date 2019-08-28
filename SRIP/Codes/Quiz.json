@@ -1,0 +1,262 @@
+{
+    "artciles": [
+        {
+            "quiztitle":"Quiz for Experiment",
+            "containers":"5"
+        },
+        {
+            "q": "1. ARM stands for _____________",
+            "option": [
+                "Advanced Rate Machines",
+                "Advanced RISC Machines",
+                "Artificial Running Machines"
+            ],
+            "answer": " Advanced RISC Machines",
+            "description": "ARM is a type of system architecture."
+        },
+        {
+            "q": "2. The main importance of ARM micro-processors is providing operation with ______",
+            "option": [
+                "Low cost and low power consumption",
+                "Higher degree of multi-tasking",
+                "Efficient memory management"
+                
+            ],
+            "answer": "Low cost and low power consumption",
+            "description": "The Stand alone feature of the ARM processors is that they’re economically viable."
+        },
+        {
+            "q": "3.ARM processors where basically designed for _______",
+            "option": [
+                "Distributed systems",
+                "Mobile systems",
+                "Main frame systems"
+
+            ],
+            "answer": "Mobile systems",
+            "description": "These ARM processors are designed for handheld devices."
+        },
+        {
+            "q": "4.The address space in ARM is ______.",
+            "option": [
+                "2^24",
+                "2^32",
+                "2^16"
+                
+            ],
+            "answer": "2^32",
+            "description": "None"
+        },
+        {
+            "q": "5.The address system supported by ARM systems is/are ______",
+            "option": [
+                "Little Endian",
+                "Big Endian",
+                "Both Little & Big Endian"
+            ],
+            "answer": "Both Little & Big Endian",
+            "description": "The way in which, the data gets stored in the system or the way of address allocation is called as address system."
+        },
+        {
+            "q": "6.RISC stands for _________",
+            "option": [
+                "Restricted Instruction Sequencing Computer",
+                "Restricted Instruction Sequential Compiler",
+                "Reduced Instruction Set Computer"
+            ],
+            "answer": "Reduced Instruction Set Computer",
+            "description": "This is a system architecture, in which the performance of the system is improved by reducing the size of the instruction set."
+        },
+        {
+            "q": "7.In the ARM, PC is implemented using ____",
+            "option": [
+                "Caches",
+                "General purpose register",
+                "Stack"
+            ],
+            "answer": "General purpose register",
+            "description": "PC is the place where the next instruction about to be executed is stored"
+        },
+        {
+            "q": "To generate a rotation , we must specify",
+            "option": [
+                "Rotation angle ϴ",
+                "Distances dx and dy",
+                "Rotation distance"
+            ],
+            "answer": "Rotation angle ϴ",
+            "description": "Generate a rotation, we must specify rotation angle ϴ of the rotation point or pivot point which the object is to be rotated."
+        },
+        {
+            "q": "9.The additional duplicate register used in ARM machines are called as _______",
+            "option": [
+                "Copied-registers",
+                "Banked registers",
+                "Extra registers"
+            ],
+            "answer": "Banked registers",
+            "description": "The duplicate registers are used in situations of context switching."
+        },
+        {
+            "q": "10.The banked registers are used for ______",
+            "option": [
+                "Switching between supervisor and interrupt mode",
+                "Extended storing",
+                "Same as other general purpose registers"
+            ],
+            "answer": "Switching between supervisor and interrupt mode",
+            "description": "When switching from one mode to another, instead of storing the register contents somewhere else it’ll be kept in the duplicate registers and the new values are stored in the actual registers.",
+        }
+        {
+            "q": "11.Each instruction in ARM machines is encoded into ____ Word.",
+            "option": [
+                "2 byte",
+                "3 byte",
+                "4 byte"
+            ],
+            "answer": "4 byte",
+            "description": "The data is encrypted to make them secure",
+        },
+        {
+            "q": "12.The addressing mode where the EA of the operand is the contents of Rn is ______",
+            "option": [
+                "Pre-indexed mode",
+                "Pre-indexed with write back mode",
+                "Post-indexed mode"
+            ],
+            "answer": "Post-indexed mode",
+            "description": "None."
+        },
+        {
+            "q": "13.The effective address of the instruction written in Post-indexed mode, MOVE[Rn]+Rm is ",
+            "option": [
+                "EA = [Rn]",
+                "EA = [Rn + Rm]",
+                "EA = [Rm] + Rn"
+            ],
+            "answer": "EA = [Rn]",
+            "description": "Effective address is the address that the computer acquires from the current instruction being executed."
+        },
+        {
+            "q": "14._____ instruction is used to get the 1’s complement of the operand",
+            "option": [
+                "COMP",
+                "BIC",
+                "MVN"
+            ],
+            "answer": "MVN",
+            "description": "The complement of all the bits of a data is its 1’s compliment."
+        },
+        {
+            "q": "15.The offset used in the conditional branching is ____ bit",
+            "option": [
+                "24",
+                "32",
+                "16"
+            ],
+            "answer": "24",
+            "description": "The offset is used to get the new branching address of the process."
+        },
+        {
+            "q": "16.The BEQ instructions is used _________",
+            "option": [
+                "To check the equality condition between the operands and then branch",
+                "To check if the Operand is greater than the condition value and then branch",
+                "To check if the flag Z is set to 1 and then causes branch"
+            ],
+            "answer": "To check if the flag Z is set to 1 and then causes branch",
+            "description": "This instruction is basically used to check the branch enable bit."
+        },
+        {
+            "q": "17.The condition to check whether the branch should happen or not is given by ____________",
+            "option": [
+                "The lower order 8 bits of the instruction",
+                "The higher order 4 bits of the instruction",
+                "The lower order 4 bits of the instruction"
+            ],
+            "answer": "The higher order 4 bits of the instruction",
+            "description": "None"
+        },
+        {
+            "q": "18.Which of the two instructions sets the condition flag upon execution?    i) ADDS R0,R1,R2  ii) ADD R0,R1,R2",
+            "option": [
+                "i",
+                "ii",
+                "Both i and ii"
+            ],
+            "answer": "i",
+            "description": "This instruction sets the condition flag without considering whether a carry or overflow has happened or not."
+        },
+        {
+            "q": "19. ____ directive is used to indicate the beginning of the program instruction or data.",
+            "option": [
+                "EQU",
+                "AREA",
+                "START"
+            ],
+            "answer": "AREA",
+            "description": "None"
+        },
+        {
+            "q": "20. _____ directive specifies the start of the execution.",
+            "option": [
+                "START",
+                "ENTRY",
+                "MAIN"
+            ],
+            "answer": "ENTRY",
+            "description": "This directive indicates the beginning of the executable part of the program."
+        },
+        {
+            "q": "21.The pseudo instruction used to load an address into the register is ______",
+            "option": [
+                "ADR",
+                "ASSIGN",
+                "LOAD"
+                
+            ],
+            "answer": "ADR",
+            "description": "None"
+        },
+        {
+            "q": "22._____ directive is used to name the register used for execution of an instruction",
+            "option": [
+                "ASSIGN",
+                "RN",
+                "NAME"
+            ],
+            "answer": "RN",
+            "description": "This instruction is used to list the registers used for execution."
+        },
+        {
+            "q": "23.Which of the following is NOT correct? (A, B and C are matrices)",
+            "option": [
+                "A.B = B.A",
+                "A.B.C = (A.B).C = A.(B.C)",
+                "C(A+B) = C.A + C.B"
+            ],
+            "answer": "A.B = B.A",
+            "description": "Matrix multiplication does not commute. We cannot switch the order of the factors and expect to end up with the same result. Hence, A.B ≠ B.A."
+        },
+        {
+            "q": "24. _____ directives are used to initialize operands.",
+            "option": [
+                "DCD",
+                "DATAWORD",
+                "RESERVE"
+            ],
+            "answer": "DCD",
+            "description": "These directives are used to initialize the operands to a user defined value or a default value"
+        },
+        {
+            "q": "25.The ARM processors don’t support Byte addressability.",
+            "option": [
+                "True",
+                "False"
+                
+            ],
+            "answer": "False",
+            "description": "The ability to store data in the form of consecutive bytes"
+        }
+    ]
+}
